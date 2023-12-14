@@ -4,12 +4,10 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -26,55 +24,30 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
-import blink.vietnam.weatherapp2.Adapters.WeatherAdapter;
-import blink.vietnam.weatherapp2.Model.Weather;
 import blink.vietnam.weatherapp2.R;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
     static final String API_KEY="d77cb61a5967bb592700365acc89844f";
-    static final String API_KEY2="691d73cc14004ca396a6d561d2bd43f5";
     EditText editTextSearch;
     Button buttonSearch,buttonNext;
     TextView textViewCity,textViewTemp,textViewStatus,textViewDay,textViewCloud,textViewWind,textViewHumid;
     ImageView imageIcon;
     TextView txtTempFeel,txtVisibility,txtPressure;
     String city="";
-    List<Weather> weatherList;
-
-    WeatherAdapter hourlyAdapter;
-    ListView listHourly;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-         listHourly.findViewById(R.id.listHourly);
         setContentView(R.layout.activity_main);
         mapping();
         buttonSearch.setOnClickListener(this);
-        if(city==""){
+        buttonNext.setOnClickListener(this);
+        if (city == "") {
             getJsonWeather("Hanoi");
-        }else getJsonWeather(city);
-        getWeatherHourly(city);
-
-        buttonNext.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                city=buttonSearch.getText().toString();
-                Intent intent=new Intent(MainActivity.this,MainActivity2.class);
-                intent.putExtra("name",city);
-                startActivity(intent);
-            }
-        });
-        weatherList = new ArrayList<>();
-        hourlyAdapter=new WeatherAdapter(MainActivity.this,R.layout.viewholder_hourly,weatherList);
-        listHourly.setAdapter(hourlyAdapter);
-
+        } else
+            getJsonWeather(city);
     }
-
-
     public void getJsonWeather(String city){
         final String url="https://api.openweathermap.org/data/2.5/weather?q="+city+"&appid="+API_KEY+"&units=metric";
         RequestQueue requestQueue= Volley.newRequestQueue(this);
@@ -119,7 +92,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
-                        Toast.makeText(MainActivity.this,""+city.toString(),Toast.LENGTH_SHORT).show();
                     }
                 },
                 new Response.ErrorListener() {
@@ -131,53 +103,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         );
         requestQueue.add(jsonObjectRequest);
     }
-
-    public void getWeatherHourly(String city){
-        String url2="https://api.openweathermap.org/data/2.5/forecast?q="+city+"&appid="+API_KEY2+"&units=metric";
-        RequestQueue requestQueue= Volley.newRequestQueue(this);
-        JsonObjectRequest jsonObjectRequest=new JsonObjectRequest(Request.Method.GET, url2, null,
-                new Response.Listener<JSONObject>() {
-                    @Override
-                    public void onResponse(JSONObject response) {
-                        try {
-                            JSONArray list =response.getJSONArray("list");
-                            for(int i=0;i<list.length();i++){
-                                JSONObject item=list.getJSONObject(i);
-                                String hourly=item.getString("dt");
-                                long lday=Long.parseLong(hourly);
-                                SimpleDateFormat dateFormat=new SimpleDateFormat();
-                                Date date=new Date(lday*1000L);
-                                String time=dateFormat.format(date);
-                                JSONObject main=item.getJSONObject("main");
-                                JSONObject temper=item.getJSONObject("temp");
-                                String temp=temper.getString("temp");
-                                JSONArray weather=item.getJSONArray("weather");
-                                JSONObject weatherItem=weather.getJSONObject(0);
-                                String icon=weatherItem.getString("icon");
-                                String urlIcon="https://openweathermap.org/img/wn/"+icon+".png";
-                                weatherList.add(new Weather(time,temp,urlIcon));
-                            }
-
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                        Toast.makeText(MainActivity.this,""+city.toString(),Toast.LENGTH_SHORT).show();
-                    }
-                },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        Toast.makeText(MainActivity.this,"Không có dữ liệu cho thành phố "+ error.getMessage(),Toast.LENGTH_SHORT).show();
-                        Log.d("Error",error.toString());
-                    }
-                }
-        );
-        requestQueue.add(jsonObjectRequest);
-    }
-
-
-
-
     private void mapping(){
         editTextSearch=findViewById(R.id.editTextSearch);
         buttonSearch=findViewById(R.id.buttonSearch);
@@ -194,8 +119,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         txtPressure=findViewById(R.id.txtPressure);
         txtTempFeel=findViewById(R.id.txtTempFeel);
     }
-
-
     @Override
     public void onClick(View view) {
         switch (view.getId()){
@@ -206,7 +129,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 getJsonWeather(city);
                 break;
             case R.id.buttonNext:
-                Intent intent=new Intent(MainActivity.this,MainActivity2.class);
+                Intent intent=new Intent(MainActivity.this, NextDayActivity.class);
                 intent.putExtra("city",city);
                 startActivity(intent);
                 break;

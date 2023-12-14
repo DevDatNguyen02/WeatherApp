@@ -1,42 +1,56 @@
 package blink.vietnam.weatherapp2.Model;
 
 public class Weather {
-    private String time;
-    private String temp;
-    private String Urlicon;
-
-    public Weather(String time, String temp,  String urlIcon) {
-        this.time = time;
-        this.temp = temp;
-        this.Urlicon = Urlicon;
-
+    String currentTime;
+    String state;
+    String urlIcon;
+    String min;
+    String max;
+    public Weather(String currentTime, String state, String urlIcon, String min, String max) {
+        this.currentTime = currentTime;
+        this.state = state;
+        this.urlIcon = urlIcon;
+        this.min = min;
+        this.max = max;
     }
 
-
-    public String getTime() {
-        return time;
+    public String getCurrentTime() {
+        return currentTime;
     }
 
-    public void setTime(String time) {
-        this.time = time;
+    public void setCurrentTime(String currentTime) {
+        this.currentTime = currentTime;
     }
 
-    public String getTemp() {
-        return temp;
+    public String getState() {
+        return state;
     }
 
-    public void setTemp(String temp) {
-        this.temp = temp;
+    public void setState(String state) {
+        this.state = state;
     }
 
-    public String getIcon() {
-        return Urlicon;
+    public String getUrlIcon() {
+        return urlIcon;
     }
 
-    public void setIcon(String icon) {
-        this.Urlicon = icon;
+    public void setUrlIcon(String urlIcon) {
+        this.urlIcon = urlIcon;
     }
 
+    public String getMin() {
+        return min;
+    }
 
+    public void setMin(String min) {
+        this.min = min;
+    }
+
+    public String getMax() {
+        return max;
+    }
+
+    public void setMax(String max) {
+        this.max = max;
+    }
 }
-
