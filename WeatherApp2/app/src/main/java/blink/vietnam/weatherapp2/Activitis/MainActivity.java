@@ -50,14 +50,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-         listHourly.findViewById(R.id.listHourly);
+//         listHourly.findViewById(R.id.listHourly);
         setContentView(R.layout.activity_main);
         mapping();
         buttonSearch.setOnClickListener(this);
         if(city==""){
             getJsonWeather("Hanoi");
         }else getJsonWeather(city);
-        getWeatherHourly(city);
+//        getWeatherHourly(city);
 
         buttonNext.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -68,9 +68,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 startActivity(intent);
             }
         });
-        weatherList = new ArrayList<>();
-        hourlyAdapter=new WeatherAdapter(MainActivity.this,R.layout.viewholder_hourly,weatherList);
-        listHourly.setAdapter(hourlyAdapter);
+//        weatherList = new ArrayList<>();
+//        hourlyAdapter=new WeatherAdapter(MainActivity.this,R.layout.viewholder_hourly,weatherList);
+//        listHourly.setAdapter(hourlyAdapter);
 
     }
 
