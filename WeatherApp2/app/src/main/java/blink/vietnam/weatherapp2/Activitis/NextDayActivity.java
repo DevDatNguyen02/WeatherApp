@@ -39,14 +39,14 @@ public class NextDayActivity extends AppCompatActivity {
         lvNextDay = findViewById(R.id.lvNextDay);
         Intent intent = getIntent();
         String city = intent.getStringExtra("city");
-        String url="https://api.openweathermap.org/data/2.5/forecast?q=hanoi&appid=d77cb61a5967bb592700365acc89844f&units=metric";
+        String url="https://api.openweathermap.org/data/2.5/forecast/daily?q=hanoi&cnt=7&appid=d77cb61a5967bb592700365acc89844f&fbclid=IwAR1mRwNfrh_YXC45XYoW8TfcOhAtkaJRjwCRRdS_hP9lVLKgOA1301MN004&units=metric";
         weatherList = new ArrayList<>();
         adapter = new com.example.weatherapp.WeatherAadapter(NextDayActivity.this, R.layout.row_weather, weatherList);
         lvNextDay.setAdapter(adapter);
         getJsonNextDay(city);
     }
     private void getJsonNextDay(String city) {
-        String url="https://api.openweathermap.org/data/2.5/forecast?q="+city+"&appid=d77cb61a5967bb592700365acc89844f&units=metric";
+        String url="https://api.openweathermap.org/data/2.5/forecast/daily?q="+city+"&cnt=7&appid=d77cb61a5967bb592700365acc89844f&fbclid=IwAR1mRwNfrh_YXC45XYoW8TfcOhAtkaJRjwCRRdS_hP9lVLKgOA1301MN004&units=metric";
         RequestQueue requestQueue = Volley.newRequestQueue(this);
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null,
                 new Response.Listener<JSONObject>() {
@@ -61,9 +61,9 @@ public class NextDayActivity extends AppCompatActivity {
                                 SimpleDateFormat dateFormat = new SimpleDateFormat("EEEE, yyyy-MM-dd HH:mm:ss");
                                 Date date = new Date(lNgay*1000);
                                 String currentTime = dateFormat.format(date); //ngay gio hien tai
-                                JSONObject main = item.getJSONObject("main");
-                                String min = main.getString("temp_min");
-                                String max = main.getString("temp_max");
+                                JSONObject temp = item.getJSONObject("temp");
+                                String min = temp.getString("min");
+                                String max = temp.getString("max");
                                 JSONArray weather = item.getJSONArray("weather");
                                 JSONObject weatherItem = weather.getJSONObject(0);
                                 String description = weatherItem.getString("description");
