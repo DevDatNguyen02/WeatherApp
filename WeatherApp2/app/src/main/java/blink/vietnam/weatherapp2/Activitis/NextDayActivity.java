@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -32,11 +33,14 @@ public class NextDayActivity extends AppCompatActivity {
     List<Weather> weatherList;
     com.example.weatherapp.WeatherAadapter adapter;
     ListView lvNextDay;
+    TextView txtCountry,txtCity;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_next_day);
         lvNextDay = findViewById(R.id.lvNextDay);
+        txtCountry = findViewById(R.id.txtCountry);
+        txtCity = findViewById(R.id.txtCity);
         Intent intent = getIntent();
         String city = intent.getStringExtra("city");
         String url="https://api.openweathermap.org/data/2.5/forecast?q=hanoi&appid=d77cb61a5967bb592700365acc89844f&units=metric";
@@ -58,12 +62,12 @@ public class NextDayActivity extends AppCompatActivity {
                                 JSONObject item = list.getJSONObject(i);
                                 String sNgay = item.getString("dt");
                                 long lNgay = Long.parseLong(sNgay);
-                                SimpleDateFormat dateFormat = new SimpleDateFormat("EEEE, yyyy-MM-dd HH:mm:ss");
+                                SimpleDateFormat dateFormat = new SimpleDateFormat("EEEE   dd/MM/yyyy");
                                 Date date = new Date(lNgay*1000);
                                 String currentTime = dateFormat.format(date); //ngay gio hien tai
                                 JSONObject main = item.getJSONObject("main");
-                                String min = main.getString("temp_min");
-                                String max = main.getString("temp_max");
+                                String min = main.getString("min");
+                                String max = main.getString("max");
                                 JSONArray weather = item.getJSONArray("weather");
                                 JSONObject weatherItem = weather.getJSONObject(0);
                                 String description = weatherItem.getString("description");

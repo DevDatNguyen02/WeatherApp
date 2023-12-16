@@ -12,8 +12,9 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
         <TextView
+            android:gravity="center"
             android:id="@+id/txtCurTime"
-            android:textColor="#2803FA"
+            android:textColor="@color/white"
             android:textStyle="bold"
             android:textSize="20sp"
             android:text="Ngày hiển thị nhiệt độ"
@@ -21,10 +22,10 @@
             android:layout_height="wrap_content"></TextView>
         <TextView
             android:id="@+id/txtState"
-            android:textColor="#F30529"
+            android:textColor="@color/yellow"
             android:textStyle="bold"
             android:textSize="16sp"
-            android:text="Ngày hiển thị nhiệt độ"
+            android:text="Trạng Thái"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"></TextView>
     </LinearLayout>
@@ -38,13 +39,14 @@
         <ImageView
             android:layout_weight="33"
             android:id="@+id/imgIcon"
-            android:src="@mipmap/ic_launcher"
+            android:src="@drawable/cloudy_sunny"
             android:layout_width="0dp"
             android:layout_height="50dp"></ImageView>
         <TextView
             android:layout_weight="33"
             android:textSize="18sp"
             android:text="min"
+            android:textColor="@color/white"
             android:id="@+id/txtMin"
             android:layout_width="0dp"
             android:layout_height="wrap_content"></TextView>
@@ -52,6 +54,7 @@
             android:layout_weight="33"
             android:textSize="18sp"
             android:text="max"
+            android:textColor="@color/white"
             android:id="@+id/txtMax"
             android:layout_width="0dp"
             android:layout_height="wrap_content"></TextView>
